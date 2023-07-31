@@ -17,7 +17,7 @@ window.title('¿Qué película ver?')
 window.iconbitmap('que_peli_ver/log.ico')
 #window.geometry('518x580')
 
-frame = tkinter.Frame(window, borderwidth=30)
+frame = tkinter.Frame(window, borderwidth=30,background='AntiqueWhite1')
 frame.grid(row=0, column=0, sticky="nsew")
 
 frame.grid_columnconfigure((0), weight=1)
@@ -33,12 +33,14 @@ frame.grid_rowconfigure((0), weight=1)
 
 entrada = tkinter.Entry(frame)
 
-l1=ttk.Label(frame, text="¿Querés buscar por género, director, o actor? : ", font=('Helvetica',11) )
+l1=ttk.Label(frame, text="¿Querés buscar por género, director, o actor? : ", font=('Helvetica',11,'bold'),background='AntiqueWhite1' )
 l1.grid(row=0, column=1,padx=10,pady=5)
-l2=ttk.Label(frame)
+l2=ttk.Label(frame,background='AntiqueWhite1')
+l3=ttk.Label(frame, text='En base a las 100 películas más populares según IMDB.', font=('Helvetica',8), border=2, relief='solid',background='AntiqueWhite2')
+l3.grid(row=7, column=1, sticky=tkinter.SE)
 
 #text output
-txt_output = tkinter.Text(frame, height=25, width=40, font=('Helvetica',10),bd=5,relief='groove')
+txt_output = tkinter.Text(frame, height=25, width=40, font=('Helvetica',10),bd=5,relief='groove',background='AntiqueWhite2')
 txt_output.grid(column=1, row=6,sticky=tkinter.NSEW,padx=5,pady=5)
 scr=ttk.Scrollbar(frame, orient=tkinter.VERTICAL, command=txt_output)
 scr.grid(row=6, column=2, rowspan=15, columnspan=1, sticky=tkinter.NS)
@@ -55,8 +57,8 @@ rb_actor.grid(row=1, column=2,sticky=tkinter.W)
 
 #option menu
 om_seleccionado=tkinter.StringVar()
-g_opciones=ttk.OptionMenu(frame,om_seleccionado, 'Acción','Comedia','Historia','Aventura', 'Terror', 'Crimen', 'Biografía', 'Animación')
-om_seleccionado.set(' - ')
+g_opciones=ttk.OptionMenu(frame,om_seleccionado, ' - ', 'Acción','Comedia','Historia','Aventura', 'Terror', 'Crimen', 'Biografía', 'Animación')
+
 
 #traduce el género para poder buscarlo en base al código de la página
 def traducir(gen):
@@ -141,13 +143,16 @@ def buscar_peliculas():
             txt_output.insert(tkinter.END,f"Director: {director}\n")
             txt_output.insert(tkinter.END,f"Actor principal: {actor}\n")
             txt_output.insert(tkinter.END,"-----------------------------\n")
-            resultados=+1
+            resultados+=1
 
     if resultados==0:
-        txt_output.insert(tkinter.END,f"No hay resultados para: {entrada.get()}\n")
-    l2.config(text=f'{resultados} resultados.')
-
+        txt_output.insert(tkinter.END,f"No hay resultados para: {ingresado()}\n")
+    
+    l2.grid_forget()
+    l1.config(text=f'{resultados} resultado/s.')
+    progressbar.grid_forget()
     boton3.grid_forget()
+    g_opciones.grid_forget()
 
 
     """ genero == traducir(om_seleccionado.get()) or director == entrada.get().title() or """
