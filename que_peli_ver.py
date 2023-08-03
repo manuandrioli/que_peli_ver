@@ -61,7 +61,7 @@ g_opciones=ttk.OptionMenu(frame,om_seleccionado, ' - ', 'Acción','Comedia','His
 
 
 #traduce el género para poder buscarlo en base al código de la página
-def traducir(gen):
+def traducir(gen, *reverso):
     global l2 
     if gen == 'Acción':
         gen='Action'
@@ -78,6 +78,21 @@ def traducir(gen):
     elif gen == 'Biografía':
         gen='Biography'
     
+    if reverso:
+        if gen == 'Action':
+            gen='Acción'
+        elif gen == 'Comedy':
+            gen='Comedia'
+        elif gen == 'History':
+            gen='Historia'
+        elif gen == 'Adventure':
+            gen='Aventura'
+        elif gen == 'Horror':
+            gen='Terror'
+        elif gen == 'Crime':
+            gen='Crimen'
+        elif gen == 'Biography':
+            gen='Biografía'
     return gen
 
 progressbar = ttk.Progressbar(frame, mode='indeterminate')
@@ -139,7 +154,7 @@ def buscar_peliculas():
         if ( genero == traducir(om_seleccionado.get()) ) or ( director == entrada.get().title() ) or ( actor == entrada.get().title() ): #si coincide cualquiera de las entradas se imprimen los datos de la película
             txt_output.insert(tkinter.END,f"Título: {titulo}\n")
             txt_output.insert(tkinter.END,f"Año: {anio}\n")
-            txt_output.insert(tkinter.END,f"Género: {genero}\n")
+            txt_output.insert(tkinter.END,f"Género: {traducir(genero,True)}\n")
             txt_output.insert(tkinter.END,f"Director: {director}\n")
             txt_output.insert(tkinter.END,f"Actor principal: {actor}\n")
             txt_output.insert(tkinter.END,"-----------------------------\n")
